@@ -1,100 +1,82 @@
-import CTASection from '../components/CTASection';
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
-export default function Gallery() {
-  const galleryItems = [
-    {
-      id: 1,
-      category: 'Acne Treatment',
-      before: 'https://images.unsplash.com/photo-1512496015851-a1cbfc38f7ef?auto=format&fit=crop&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=600',
-      timeline: '12 Weeks',
-      description: 'Severe cystic acne treated with our comprehensive protocol.'
-    },
-    {
-      id: 2,
-      category: 'Hair Loss Therapy',
-      before: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1599839619722-39751411ea63?auto=format&fit=crop&q=80&w=600',
-      timeline: '6 Months',
-      description: 'Significant hair regrowth after 4 PRP sessions.'
-    },
-    {
-      id: 3,
-      category: 'Skin Brightening',
-      before: 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=600',
-      timeline: '8 Weeks',
-      description: 'Reduction in melasma and overall skin tone improvement.'
-    },
-    {
-      id: 4,
-      category: 'Laser Treatment',
-      before: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=600',
-      timeline: '4 Sessions',
-      description: 'Acne scar reduction using fractional laser resurfacing.'
-    }
-  ];
+const categories = ["All", "Acne", "Hair Loss", "Pigmentation", "Laser"]
+
+const galleryItems = [
+  { id: 1, category: "Acne", before: "acne_before_1", after: "acne_after_1", title: "Severe Cystic Acne", time: "3 Months" },
+  { id: 2, category: "Hair Loss", before: "hair_before_1", after: "hair_after_1", title: "Male Pattern Baldness", time: "6 Months" },
+  { id: 3, category: "Pigmentation", before: "pigment_before_1", after: "pigment_after_1", title: "Melasma Treatment", time: "4 Sessions" },
+  { id: 4, category: "Acne", before: "acne_before_2", after: "acne_after_2", title: "Hormonal Breakouts", time: "2 Months" },
+  { id: 5, category: "Laser", before: "laser_before_1", after: "laser_after_1", title: "Tattoo Removal", time: "8 Sessions" },
+  { id: 6, category: "Hair Loss", before: "hair_before_2", after: "hair_after_2", title: "Female Hair Thinning", time: "4 Months" },
+]
+
+export function Gallery() {
+  const [activeCategory, setActiveCategory] = useState("All")
+
+  const filteredItems = activeCategory === "All" 
+    ? galleryItems 
+    : galleryItems.filter(item => item.category === activeCategory)
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
-      {/* Header */}
-      <section className="bg-blue-600 py-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <svg className="absolute left-0 top-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="currentColor" />
-          </svg>
-        </div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
-            Real Results
-          </h1>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            See the transformative power of our medical-grade treatments.
+    <div className="flex flex-col min-h-screen">
+      <section className="bg-blue-50 py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Real Results</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            See the transformative power of our treatments. These are unretouched photos of real patients.
           </p>
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {galleryItems.map((item) => (
-              <div key={item.id} className="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
-                <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-                  <h3 className="text-xl font-bold text-slate-900">{item.category}</h3>
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
-                    {item.timeline}
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-1 p-1 bg-slate-100">
-                  <div className="relative group">
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Filter */}
+          <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {categories.map(category => (
+              <Button
+                key={category}
+                variant={activeCategory === category ? "default" : "outline"}
+                onClick={() => setActiveCategory(category)}
+                className="rounded-full"
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredItems.map(item => (
+              <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
+                <div className="relative h-64 flex">
+                  <div className="w-1/2 relative border-r border-white">
                     <img
-                      src={item.before}
-                      alt={`${item.category} Before`}
-                      className="w-full h-64 object-cover"
+                      src={`https://picsum.photos/seed/${item.before}/400/600`}
+                      alt={`Before ${item.title}`}
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-4 left-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
-                      Before
-                    </div>
+                    <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">Before</div>
                   </div>
-                  <div className="relative group">
+                  <div className="w-1/2 relative">
                     <img
-                      src={item.after}
-                      alt={`${item.category} After`}
-                      className="w-full h-64 object-cover"
+                      src={`https://picsum.photos/seed/${item.after}/400/600`}
+                      alt={`After ${item.title}`}
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-4 right-4 bg-emerald-500/90 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm shadow-sm">
-                      After
-                    </div>
+                    <div className="absolute bottom-2 right-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded">After</div>
                   </div>
                 </div>
-                
-                <div className="p-6 bg-slate-50">
-                  <p className="text-slate-600 leading-relaxed">
-                    {item.description}
-                  </p>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                    <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{item.category}</span>
+                  </div>
+                  <p className="text-sm text-gray-500">Result after: <span className="font-semibold text-gray-700">{item.time}</span></p>
                 </div>
               </div>
             ))}
@@ -102,10 +84,14 @@ export default function Gallery() {
         </div>
       </section>
 
-      <CTASection 
-        title="Ready to see your own transformation?"
-        subtitle="Book a consultation today and let's create your personalized treatment plan."
-      />
+      <section className="py-16 bg-blue-600 text-white text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-6">Want to see these results for yourself?</h2>
+          <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100" asChild>
+            <Link to="/contact">Book Your Consultation</Link>
+          </Button>
+        </div>
+      </section>
     </div>
-  );
+  )
 }

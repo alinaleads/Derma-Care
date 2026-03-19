@@ -1,64 +1,110 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
-import CTASection from '../components/CTASection';
-import { services } from '../data/services';
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { CheckCircle2, ArrowRight } from "lucide-react"
 
-export default function Services() {
+const services = [
+  {
+    id: "acne",
+    title: "Acne & Scar Treatment",
+    description: "Medical-grade solutions to clear active acne and fade stubborn scars.",
+    problem: "Struggling with persistent breakouts, painful cysts, or dark spots left behind by old pimples?",
+    solution: "We use a combination of prescription topicals, chemical peels, and advanced laser therapy to target acne at its root and resurface the skin.",
+    benefits: ["Clears active breakouts", "Reduces inflammation", "Fades acne scars", "Prevents future flare-ups"],
+    timeline: "Visible improvement in 2-4 weeks. Significant clearing in 3 months.",
+    img: "acne_treatment"
+  },
+  {
+    id: "hair",
+    title: "Hair Loss Treatment",
+    description: "Clinically proven therapies to stop hair fall and stimulate regrowth.",
+    problem: "Noticing thinning hair, a receding hairline, or excessive shedding in the shower?",
+    solution: "Our comprehensive approach includes PRP (Platelet-Rich Plasma) therapy, mesotherapy, and customized medical plans to awaken dormant hair follicles.",
+    benefits: ["Stops excessive hair fall", "Stimulates new growth", "Thickens existing hair", "Improves scalp health"],
+    timeline: "Reduced shedding in 4 weeks. New growth visible in 3-4 months.",
+    img: "hair_treatment"
+  },
+  {
+    id: "glow",
+    title: "Skin Whitening & Glow",
+    description: "Safe, effective treatments for pigmentation, melasma, and dull skin.",
+    problem: "Dealing with uneven skin tone, sun damage, dark patches, or a generally dull complexion?",
+    solution: "We utilize advanced Q-switch lasers, glutathione therapy, and specialized peels to break down excess melanin and restore a radiant glow.",
+    benefits: ["Evens skin tone", "Reduces dark spots", "Brightens complexion", "Improves skin texture"],
+    timeline: "Brighter skin immediately after peels. Pigmentation fades over 3-6 sessions.",
+    img: "skin_glow"
+  },
+  {
+    id: "laser",
+    title: "Advanced Laser Treatments",
+    description: "State-of-the-art laser technology for hair removal, tattoo removal, and anti-aging.",
+    problem: "Tired of shaving, regretting an old tattoo, or noticing fine lines and wrinkles?",
+    solution: "Our clinic is equipped with FDA-approved lasers tailored for various skin types and concerns, ensuring safe and effective results.",
+    benefits: ["Permanent hair reduction", "Safe tattoo removal", "Collagen stimulation", "Wrinkle reduction"],
+    timeline: "Varies by treatment. Hair reduction visible after 1st session.",
+    img: "laser_treatment"
+  }
+]
+
+export function Services() {
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
-      {/* Header */}
-      <section className="bg-blue-600 py-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <svg className="absolute left-0 top-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="currentColor" />
-          </svg>
-        </div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
-            Our Medical Treatments
-          </h1>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Advanced, doctor-led solutions for acne, hair loss, and skin rejuvenation.
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-blue-50 py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Our Services</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Comprehensive, doctor-led treatments designed to address your specific skin and hair concerns with proven results.
           </p>
         </div>
       </section>
 
       {/* Services List */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
-            {services.map((service) => (
-              <div key={service.id} className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-300">
-                <div className="h-64 overflow-hidden relative">
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-24">
+            {services.map((service, index) => (
+              <div key={service.id} id={service.id} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+                <div className={index % 2 !== 0 ? 'lg:order-2' : ''}>
                   <img
-                    src={service.image}
+                    src={`https://picsum.photos/seed/${service.img}/800/600`}
                     alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="rounded-2xl shadow-lg w-full object-cover"
+                    referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="p-8 flex-grow flex flex-col">
-                  <h2 className="text-2xl font-bold text-slate-900 mb-4">{service.title}</h2>
-                  <p className="text-slate-600 mb-8 flex-grow leading-relaxed">
-                    {service.description}
-                  </p>
+                <div className={index % 2 !== 0 ? 'lg:order-1' : ''}>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">{service.title}</h2>
+                  <p className="text-xl text-blue-600 font-medium mb-6">{service.description}</p>
                   
-                  <div className="space-y-3 mb-8">
-                    {service.benefits.slice(0, 3).map((benefit, index) => (
-                      <div key={index} className="flex items-center text-sm text-slate-700">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-500 mr-3 flex-shrink-0" />
-                        {benefit}
-                      </div>
-                    ))}
+                  <div className="space-y-6 mb-8">
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-2">The Problem:</h4>
+                      <p className="text-gray-600">{service.problem}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-2">Our Solution:</h4>
+                      <p className="text-gray-600">{service.solution}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-3">Key Benefits:</h4>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {service.benefits.map((benefit, i) => (
+                          <li key={i} className="flex items-start text-gray-600">
+                            <CheckCircle2 className="h-5 w-5 text-emerald-500 mr-2 shrink-0" />
+                            <span>{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                      <h4 className="font-bold text-blue-900 mb-1">Expected Timeline:</h4>
+                      <p className="text-blue-800 text-sm">{service.timeline}</p>
+                    </div>
                   </div>
-
-                  <Link
-                    to={`/services/${service.id}`}
-                    className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto"
-                  >
-                    View Treatment Details
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Link>
+                  
+                  <Button size="lg" asChild>
+                    <Link to={`/services/${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -66,7 +112,18 @@ export default function Services() {
         </div>
       </section>
 
-      <CTASection />
+      {/* CTA */}
+      <section className="py-16 bg-gray-900 text-white text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-6">Not sure which treatment is right for you?</h2>
+          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Book a free consultation with our dermatologists. We'll analyze your skin/hair and create a customized treatment plan just for you.
+          </p>
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
+            <Link to="/contact">Get Free Consultation</Link>
+          </Button>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
